@@ -3,4 +3,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtBlacklist
+
+  def jwt_payload
+    {
+      email: email
+    }
+  end
 end
