@@ -10,15 +10,93 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_27_142457) do
+ActiveRecord::Schema.define(version: 2019_01_13_004232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "flows", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "default_responsable_id"
+    t.bigint "created_by_id"
+    t.integer "version_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_flows_on_created_by_id"
+    t.index ["default_responsable_id"], name: "index_flows_on_default_responsable_id"
+  end
+
+  create_table "instance_items", force: :cascade do |t|
+    t.datetime "finished_at"
+    t.json "evidence_result"
+    t.bigint "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_instance_items_on_task_id"
+  end
+
+  create_table "instances", force: :cascade do |t|
+    t.bigint "responsable_id"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.bigint "flow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_instances_on_flow_id"
+    t.index ["responsable_id"], name: "index_instances_on_responsable_id"
+  end
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "organization_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "organization_id"
+    t.boolean "is_owner"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_users_on_organization_id"
+    t.index ["user_id"], name: "index_organization_users_on_user_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "task_evidences", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.text "description"
+    t.boolean "is_required"
+    t.bigint "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_task_evidences_on_task_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "embedded_url"
+    t.string "code"
+    t.string "random_color"
+    t.bigint "flow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_tasks_on_flow_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -29,8 +107,16 @@ ActiveRecord::Schema.define(version: 2018_12_27_142457) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "full_name"
+    t.integer "role_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "flows", "users", column: "created_by_id"
+  add_foreign_key "flows", "users", column: "default_responsable_id"
+  add_foreign_key "instance_items", "tasks"
+  add_foreign_key "instances", "users", column: "responsable_id"
+  add_foreign_key "task_evidences", "tasks"
+  add_foreign_key "tasks", "flows"
 end

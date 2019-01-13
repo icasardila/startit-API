@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  responsable: one
+  started_at: 2019-01-12 19:41:12
+  finished_at: 2019-01-12 19:41:12
+  flow: 
+
+two:
+  responsable: two
+  started_at: 2019-01-12 19:41:12
+  finished_at: 2019-01-12 19:41:12
+  flow: 

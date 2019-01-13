@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  default_responsable_id: 1
+  created_by: one
+  version_number: 1
+
+two:
+  title: MyString
+  description: MyText
+  default_responsable_id: 1
+  created_by: two
+  version_number: 1
