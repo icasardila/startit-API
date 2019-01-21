@@ -1,7 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-
+  title: owner
 two:
-  title: MyString
+  title: admin
+two:
+  title: member
