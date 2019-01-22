@@ -6,7 +6,7 @@ class RegistersController < ApplicationController
     if account.create
       render jsonapi: account.user
     else
-      render jsonapi: account.errors, :status => :bad_request
+      render jsonapi_errors: account.errors, :status => :bad_request
     end
   end
   private
@@ -16,6 +16,6 @@ class RegistersController < ApplicationController
       params
         .require(:data)
         .require(:attributes)
-        .permit(:full_name, :email, :password, :organization_name)
+        .permit(:first_name, :last_name, :email, :password, :organization_name)
     end
 end

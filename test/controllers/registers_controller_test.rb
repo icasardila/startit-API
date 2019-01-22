@@ -6,7 +6,8 @@ class RegistersControllerTest < ActionDispatch::IntegrationTest
       params: {
         data: {
           attributes: {
-            full_name: "jhon doe",
+            first_name: "doe",
+            last_name: "doe",
             email: "jhon@test.com",
             organization_name: "FS",
             password: "ThisisA$$Pass2"
@@ -14,5 +15,21 @@ class RegistersControllerTest < ActionDispatch::IntegrationTest
         }
       }
     assert_response :success
+  end
+
+  test "response with error when invalid" do
+    post "/registers",
+      params: {
+        data: {
+          attributes: {
+            first_name: "doe",
+            last_name: "doe",
+            email: "@test.com",
+            organization_name: "FS",
+            password: "ThisisA$$Pass2"
+          }
+        }
+      }
+    assert_response :bad_request
   end
 end
