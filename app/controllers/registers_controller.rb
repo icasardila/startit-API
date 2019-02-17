@@ -4,7 +4,9 @@ class RegistersController < ApplicationController
   def create
     account = Account.new(register_params)
     if account.create
-      render jsonapi: account.user
+      user = account.user
+      sign_in(:user, user)
+      render jsonapi: user
     else
       render jsonapi_errors: account.errors, :status => :bad_request
     end
