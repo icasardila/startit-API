@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RegistersControllerTest < ActionDispatch::IntegrationTest
-  test "can create an account" do
+  test "can create an account and return authorization" do
     post "/registers",
       params: {
         data: {
@@ -14,7 +14,8 @@ class RegistersControllerTest < ActionDispatch::IntegrationTest
           }
         }
       }
-    assert_response :success
+    assert_response :successs
+    refute_nil response.headers['Authorization']
   end
 
   test "response with error when invalid" do
