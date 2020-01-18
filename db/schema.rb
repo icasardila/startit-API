@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_13_004232) do
+ActiveRecord::Schema.define(version: 2020_01_18_141027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,12 @@ ActiveRecord::Schema.define(version: 2019_01_13_004232) do
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_flows_on_created_by_id"
     t.index ["default_responsable_id"], name: "index_flows_on_default_responsable_id"
+  end
+
+  create_table "forms", force: :cascade do |t|
+    t.jsonb "schema", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "instance_items", force: :cascade do |t|
